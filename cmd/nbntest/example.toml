@@ -1,0 +1,17 @@
+[modem]
+interval="1m"
+type="TPLink-TD-9970"
+
+[modem.config.TPLink-TD-9970]
+port=2244
+ip="127.0.0.1"
+
+[speedtest]
+interval="1h"
+site=2165
+
+[output.console]
+enabled=true
+
+[output.influxdb]
+enabled=true
