@@ -5,7 +5,7 @@ This program can be used to record your modem statistics and the results of spee
 
 # Supported Outputs
 
-* InfluxDB
+* InfluxDB [wiki](https://github.com/freman/nbntest/wiki/Output-InfluxDB)
 * Console
 
 # Supported Modems
