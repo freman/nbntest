@@ -21,3 +21,4 @@ deploy:
     - release/nbntest-linux-amd64
   on:
     repo: freman/nbntest
+    tags: true
