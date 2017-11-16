@@ -10,6 +10,11 @@ import (
 	_ "github.com/freman/nbntest/output"
 )
 
+var (
+	version = "Undefined"
+	commit  = "Undefined"
+)
+
 func envStr(name, def string) string {
 	if tmp := os.Getenv(name); tmp != "" {
 		return tmp
@@ -18,9 +23,16 @@ func envStr(name, def string) string {
 }
 
 func main() {
+	showVersion := flag.Bool("version", false, "Show the current version")
 	configFile := flag.String("config", envStr("NBNTEST_CONFIG", "config.toml"), "Path to the configuration file (env:NBNTEST_CONFIG)")
 	listModems := flag.Bool("modems", false, "List the modems supported")
 	flag.Parse()
+
+	if *showVersion {
+		fmt.Printf("nbntest - %s (%s)\n", version, commit)
+		fmt.Println("https://github.com/freman/nbntest")
+		return
+	}
 
 	if *listModems {
 		for _, v := range nbntest.ListModems() {
