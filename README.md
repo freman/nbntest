@@ -17,7 +17,7 @@ This program can be used to record your modem statistics and the results of spee
 
 # Extras
 
-In the [Extras](extras) dir there's some bits and pieces to get you started including the grafana dashboard in the
+In the [Extra](extra) dir there's some bits and pieces to get you started including the grafana dashboard in the
 screenshot above
 
 # TODO
