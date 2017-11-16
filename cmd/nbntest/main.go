@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/davecgh/go-spew/spew"
 	"github.com/freman/nbntest"
 	_ "github.com/freman/nbntest/modem"
 	_ "github.com/freman/nbntest/output"
@@ -40,8 +39,6 @@ func main() {
 	}
 
 	st.Outputs.Init(cfg)
-
-	spew.Dump(st.Outputs)
 
 	st.Run()
 }
