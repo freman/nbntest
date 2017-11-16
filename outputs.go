@@ -1,7 +1,6 @@
 package nbntest
 
 import (
-	"fmt"
 	"time"
 )
 
