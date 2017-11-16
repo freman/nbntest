@@ -93,7 +93,7 @@ func (t *NBNTest) CollectFromSpeedtest(now time.Time) {
 			download := s.TestDownload()
 			upload := s.TestUpload()
 
-			t.Outputs.RecordSpeedtest(now, s.ID, latency, download, upload)
+			t.Outputs.RecordSpeedtest(now, s.ID, latency, upload, download)
 		}()
 	default:
 		t.Outputs.RecordError(now, errors.New("skipped speedtest, previous test still running"))
