@@ -15,6 +15,14 @@ This program can be used to record your modem statistics and the results of spee
 * TPLink TD-9970
 * Generic Telnet via LUA
 
+# Releases
+
+Binary releases for a handful of platforms are [available on the releases page](https://github.com/freman/nbntest/releases) and will basically be any version I think is stable enough not to be awful.
+
+# Building your own
+
+I've started a [wiki page](https://github.com/freman/nbntest/wiki/Developing-Building) covering the quick start to installing the Go build environment and building the binary
+
 # Extras
 
 In the [Extra](extra) dir there's some bits and pieces to get you started including the grafana dashboard in the
