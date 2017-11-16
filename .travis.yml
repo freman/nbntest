@@ -12,6 +12,7 @@ script:
 - CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags "-X main.version=$TRAVIS_TAG
   -X main.commit=$TRAVIS_COMMIT" -o release/nbntest-linux-amd64 github.com/freman/nbntest/cmd/nbntest
 deploy:
+  skip_cleanup: true
   provider: releases
   api_key:
     secure: kF5tbwb3bI5/tfyppVk1s/yaH0NlqeuQbSGuyEozhSP5gEiLqZQMbqjjEGZM0GmCwoZjUZRrqpTdDkSs21HeojWc7oEoB0m1icQ8E7fD/ZNc7OWkklnlUWJk2Sh+FGcU7lnySL8XEQRO1yZHTcU651nRoWWN42f90Yy71Pzf4NriUDQ5pRTEdfCA+W/QGKJEc9K68IaRjhY0x5dbJa8mrBsLrWt8Y2ZZFguHaEZzHAxArPG1gjq897A5v2hhG/3LCqtIHkBh/yDYhcdqvGbpEArWVWuGApg5h7NBCrnQMVxqGuBHNI/FL2IyxCMD+k1qQI3h6aonoS1NXWz0fJV3aFqHAZkE5QvKwRgXmB/ICux9i6froxuijxaqgzx2+bZLk6rI7rCrOaDHeuNxevJZ01tBrMQYxgICXjeSGsUK2UwJCWFZPqx0CQGEHAtiXaPN7Lz++JO8g5iUgULhoiSTpMsTHbrG5mvckyUHgsipOCHGi/s8Sye8cSvp19nsFKifo/CX1ME7/9IP0+KfKXFWdyWS6C0riJuAIIH0tjWLGWczNqetutQlqiCX36vtWYCcMPVlU9EdW6pvBFez31/AzZQJBpF8gqgT2Ds/dRojI549wFI5j2vQf1s3qKybOUo0wdOiRnLWwAdW3gBHgPRGae7mrV3xiv7Pnwh7Riipwo4=
