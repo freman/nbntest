@@ -39,7 +39,6 @@ func (o *Outputs) Init(c *Configuration) {
 		}
 
 		if c.UnifyOutputConfiguration(n, &test); test.Enabled {
-			fmt.Println("it's enabled mang")
 			i := f()
 			i.Init(c)
 			*o = append(*o, i)
