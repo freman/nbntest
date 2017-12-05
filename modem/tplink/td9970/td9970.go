@@ -57,7 +57,7 @@ func setStreamStat(stat *nbntest.StreamStatistics, l, stream string) (r bool) {
 	if r = strings.HasPrefix(l, stream); r {
 		l = strings.TrimPrefix(l, stream)
 		split := strings.Split(l, "=")
-		v, _ := strconv.Atoi(split[1])
+		v, _ := strconv.ParseFloat(split[1], 64)
 		switch split[0] {
 		case "CurrRate":
 			stat.CurrRate = v

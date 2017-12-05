@@ -40,9 +40,9 @@ type ModemStatistics struct {
 }
 
 type StreamStatistics struct {
-	CurrRate    int
-	MaxRate     int
-	NoiseMargin int
-	Attenuation int
-	Power       int
+	CurrRate    float64
+	MaxRate     float64
+	NoiseMargin float64
+	Attenuation float64
+	Power       float64
 }

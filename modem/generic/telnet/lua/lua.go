@@ -148,7 +148,7 @@ func (m *modem) Gather() (*nbntest.ModemStatistics, error) {
 
 		d := L.ToString(1)
 		s := L.ToString(2)
-		v := L.ToInt(3)
+		v := float64(L.ToNumber(3))
 
 		var stat *nbntest.StreamStatistics
 		switch d {
@@ -185,7 +185,7 @@ func (m *modem) Gather() (*nbntest.ModemStatistics, error) {
 		}
 
 		s := L.ToString(1)
-		v := L.ToInt(2)
+		v := float64(L.ToNumber(2))
 
 		var stat *time.Duration
 		switch s {
