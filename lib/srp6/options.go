@@ -15,7 +15,7 @@ type Options struct {
 	K       string
 }
 
-type option = func(o *Options)
+type option func(o *Options)
 
 func Hasher(h func() hash.Hash) option {
 	return func(o *Options) {
