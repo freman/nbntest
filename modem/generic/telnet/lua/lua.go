@@ -166,11 +166,11 @@ func (m *modem) Gather() (*nbntest.ModemStatistics, error) {
 		case "maxrate":
 			stat.MaxRate = v
 		case "noisemargin":
-			stat.NoiseMargin = v
+			stat.NoiseMargin = append(stat.NoiseMargin, v)
 		case "attenuation":
-			stat.Attenuation = v
+			stat.Attenuation = append(stat.Attenuation, v)
 		case "power":
-			stat.Power = v
+			stat.Power = append(stat.Power, v)
 		default:
 			return e(errors.New("unknown statistic"))
 		}

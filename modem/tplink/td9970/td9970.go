@@ -64,11 +64,11 @@ func setStreamStat(stat *nbntest.StreamStatistics, l, stream string) (r bool) {
 		case "MaxRate":
 			stat.MaxRate = v
 		case "NoiseMargin":
-			stat.NoiseMargin = v
+			stat.NoiseMargin = append(stat.NoiseMargin, v)
 		case "Attenuation":
-			stat.Attenuation = v
+			stat.Attenuation = append(stat.Attenuation, v)
 		case "Power":
-			stat.Power = v
+			stat.Power = append(stat.Power, v)
 		}
 	}
 	return

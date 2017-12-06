@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"net/http/cookiejar"
 	"regexp"
+	"strconv"
 	"strings"
 	"time"
 
@@ -123,25 +124,30 @@ func (m *modem) Gather() (*nbntest.ModemStatistics, error) {
 		return nil, err
 	}
 
-	stats.Upstream.Power, stats.Downstream.Power, err = as2power(doc.Find("span[id='Output Power']").Text())
+	stats.Upstream.Power = make([]float64, 1)
+	stats.Downstream.Power = make([]float64, 1)
+	stats.Upstream.Power[0], stats.Downstream.Power[0], err = as2power(doc.Find("span[id='Output Power']").Text())
 	if err != nil {
 		return nil, err
 	}
 
-	// TODO: which which is which
-	strings.Fields(doc.Find("span[id='Line Attenuation']").Text())
-	// ([]string) (len=8 cap=8) {
-	//  (string) (len=4) "5.3,",
-	//  (string) (len=5) "25.2,",
-	//  (string) (len=4) "39.3",
-	//  (string) (len=2) "dB",
-	//  (string) (len=5) "13.0,",
-	//  (string) (len=5) "32.0,",
-	//  (string) (len=4) "48.2",
-	//  (string) (len=2) "dB"
-	// }
+	for i, v := range strings.Fields(doc.Find("span[id='Line Attenuation']").Text()) {
+		if i == 4 || i == 8 {
+			continue
+		}
 
-	stats.Upstream.NoiseMargin, stats.Downstream.NoiseMargin, err = as2power(doc.Find("span[id='Noise Margin']").Text())
+		vf, _ := strconv.ParseFloat(strings.Trim(v, ","), 64)
+		if i < 4 {
+			stats.Upstream.Attenuation = append(stats.Upstream.Attenuation, vf)
+			continue
+		}
+
+		stats.Downstream.Attenuation = append(stats.Downstream.Attenuation, vf)
+	}
+
+	stats.Upstream.NoiseMargin = make([]float64, 1)
+	stats.Downstream.NoiseMargin = make([]float64, 1)
+	stats.Upstream.NoiseMargin[0], stats.Downstream.NoiseMargin[0], err = as2power(doc.Find("span[id='Noise Margin']").Text())
 	if err != nil {
 		return nil, err
 	}

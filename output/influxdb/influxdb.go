@@ -13,6 +13,8 @@ import (
 
 const OutputName = "influxdb"
 
+type influxFields map[string]interface{}
+
 type InfluxDB struct {
 	// Influx parameters
 	Address            gct.URL      `toml:"address"`
@@ -25,6 +27,21 @@ type InfluxDB struct {
 	Database string `toml:"database"`
 
 	client client.Client
+}
+
+func (f *influxFields) arrayStat(n string, s []float64) {
+	l := len(s)
+	if l == 0 {
+		return
+	}
+
+	// Record the first as primary
+	(*f)[n] = s[0]
+
+	// Record all the stats
+	for i, v := range s {
+		(*f)[fmt.Sprintf("%s_%d", n, i+1)] = v
+	}
 }
 
 func (o *InfluxDB) Init(c *nbntest.Configuration) {
@@ -76,22 +93,24 @@ func (o *InfluxDB) RecordError(t time.Time, err error) {
 }
 
 func (o *InfluxDB) RecordModem(t time.Time, stat nbntest.ModemStatistics) {
-	fields := map[string]interface{}{
-		"down_attenuation":  stat.Downstream.Attenuation,
+	fields := influxFields{
 		"down_current_rate": stat.Downstream.CurrRate,
 		"down_maximum_rate": stat.Downstream.MaxRate,
-		"down_noise_margin": stat.Downstream.NoiseMargin,
-		"down_power":        stat.Downstream.Power,
 
-		"up_attenuation":  stat.Upstream.Attenuation,
 		"up_current_rate": stat.Upstream.CurrRate,
 		"up_maximum_rate": stat.Upstream.MaxRate,
-		"up_noise_margin": stat.Upstream.NoiseMargin,
-		"up_power":        stat.Upstream.Power,
 
 		"modem_uptime":    stat.ModemUptime,
 		"showtime_uptime": stat.ShowtimeUptime,
 	}
+
+	fields.arrayStat("down_attenuation", stat.Downstream.Attenuation)
+	fields.arrayStat("down_noise_margin", stat.Downstream.NoiseMargin)
+	fields.arrayStat("down_power", stat.Downstream.Power)
+
+	fields.arrayStat("up_attenuation", stat.Upstream.Attenuation)
+	fields.arrayStat("up_noise_margin", stat.Upstream.NoiseMargin)
+	fields.arrayStat("up_power", stat.Upstream.Power)
 
 	o.write("modem", nil, fields, t)
 }
