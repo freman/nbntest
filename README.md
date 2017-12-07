@@ -13,6 +13,8 @@ This program can be used to record your modem statistics and the results of spee
 # Supported Modems
 
 * TPLink TD-9970
+* Technicolor TGiiNet-1
+* Technicolor TG789vac
 * Generic Telnet via LUA
 
 # Releases
