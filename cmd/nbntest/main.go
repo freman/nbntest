@@ -43,7 +43,9 @@ func main() {
 
 	cfg, err := nbntest.LoadConfiguration(*configFile)
 	if err != nil {
-		panic(err)
+		fmt.Println("Unable to parse configuration")
+		fmt.Println(" -", err)
+		os.Exit(1)
 	}
 
 	st := &nbntest.NBNTest{
@@ -52,5 +54,10 @@ func main() {
 
 	st.Outputs.Init(cfg)
 
-	st.Run()
+	err = st.Run()
+	if err != nil {
+		fmt.Println("Unable to run nbntest")
+		fmt.Println(" -", err)
+		os.Exit(1)
+	}
 }

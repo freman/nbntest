@@ -14,7 +14,7 @@ type NBNTest struct {
 	muSpeedTest chan struct{}
 }
 
-func (t *NBNTest) Run() {
+func (t *NBNTest) Run() error {
 	t.muModem = make(chan struct{}, 1)
 	t.muSpeedTest = make(chan struct{}, 1)
 
@@ -22,7 +22,9 @@ func (t *NBNTest) Run() {
 	speedtestTimer := time.NewTicker(t.Config.SpeedTest.Interval.Duration)
 
 	now := time.Now()
-	t.CollectFromModem(now)
+	if err := t.CollectFromModem(now); err != nil {
+		return err
+	}
 	t.CollectFromSpeedtest(now)
 
 	for {
@@ -33,16 +35,24 @@ func (t *NBNTest) Run() {
 			t.CollectFromSpeedtest(now)
 		}
 	}
-
 }
 
-func (t *NBNTest) CollectFromModem(now time.Time) {
+func (t *NBNTest) CollectFromModem(now time.Time) error {
+	modem := GetModem(t.Config.Modem.Interface)
+	if modem == nil {
+		return errors.New("Unable to load modem driver " + t.Config.Modem.Interface)
+	}
+
 	select {
 	case t.muModem <- struct{}{}:
 		go func() {
 			defer func() { <-t.muModem }()
-			modem := GetModem(t.Config.Modem.Interface)
-			modem.Init(t.Config)
+			err := modem.Init(t.Config)
+			if err != nil {
+				t.Outputs.RecordError(now, err)
+				return
+			}
+
 			stats, err := modem.Gather()
 			if err != nil {
 				t.Outputs.RecordError(now, err)
@@ -54,6 +64,8 @@ func (t *NBNTest) CollectFromModem(now time.Time) {
 	default:
 		t.Outputs.RecordError(now, errors.New("skipped modem test, previous test still running"))
 	}
+
+	return nil
 }
 
 func (t *NBNTest) CollectFromSpeedtest(now time.Time) {
